@@ -557,13 +557,13 @@ def _(SCHEMA_URL, load_schema):
 
 
 @app.cell
-def _(DATA_URL, df, mo):
+def _(df, mo):
     mo.vstack(
         [
-            mo.md("# [Form Name -Persona] Dashboard"),
+            mo.md("# Form Name: Persona"),
             mo.md(
                 f"**Data Table:** persona87 &nbsp;·&nbsp; "
-                f"**Source:** [sample_data.csv]({DATA_URL}) &nbsp;·&nbsp; "
+                f"**Project:** Rojan-Test &nbsp;·&nbsp; "
                 f"**Total rows:** {df.height}"
             ),
 
@@ -764,7 +764,7 @@ def _(EmailTableWidget, TEMPORAL_TYPES, mo, pl, px):
 
     def _summary_strip(agg):
         return mo.md(
-            f"**Total Accepted Submissions:** {agg['total_count']} "
+            f"**Counts(N):** {agg['total_count']} "
             f"&nbsp;·&nbsp; **Missing / Null:** {agg['null_count']}"
             + (
                 f" &nbsp;·&nbsp; **Parse failed:** {agg['parse_failed_count']}"
@@ -819,6 +819,8 @@ def _(EmailTableWidget, TEMPORAL_TYPES, mo, pl, px):
 
     def _categorical_chart(field, agg, exclude_nulls, chart_type=None):
         data = agg["chart_data"]["exclude_nulls" if exclude_nulls else "include_nulls"]
+        if data is None:
+            data = agg["chart_data"]["exclude_nulls"]
         if data is None or data.height == 0:
             return mo.md("_No data to chart._")
         ftype = field["type"]
